@@ -1,0 +1,90 @@
+import java.util.Scanner;
+
+// Class representing a Satellite
+class Satellite {
+    // Private fields to store the satellite's state
+    private String orientation = "North";
+    private String panelStatus = "inactive";
+    private int dataCollected = 0;
+    // Method to rotate the satellite to a new direction
+      public void rotate(String direction) {
+          //To check if the direction is given correctly
+        if (direction.equalsIgnoreCase("North") || direction.equalsIgnoreCase("South") || direction.equalsIgnoreCase("East") || direction.equalsIgnoreCase("West")) {
+            orientation = direction;
+            System.out.println("Satellite rotated to: " + orientation);
+        } else {
+            System.out.println("Invalid direction. Please enter North, South, East, or West.");
+        }
+    }
+    // Method to activate the solar panels
+    public void activatePanels() {
+        panelStatus = "active";
+        System.out.println("Solar panel activated.");
+    }
+    // Method to deactivate the solar panels
+    public void deactivatePanels() {
+        panelStatus = "inactive";
+        System.out.println("Solar panel deactivated.");
+    }
+
+    // Method to collect data if the panels are active
+    public void collectData() {
+        int data = 10;
+        if (panelStatus.equals("active")) { // Check if panels are active
+            dataCollected += data;//Increases in 10 units
+            System.out.println("Data collected: " + dataCollected);
+        } else {
+            System.out.println("Cannot collect data. Panels are inactive.");
+        }
+    }
+    // Method to print the current status of the satellite
+    public void printStatus() {
+        System.out.println("Orientation: " + orientation);
+        System.out.println("Panel Status: " + panelStatus);
+        System.out.println("Data Collected: " + dataCollected);
+    }
+}
+// Main class to run the Satellite Command System
+public class SatelliteCommandSystem {
+    public static void main(String[] args) {
+        Satellite satellite = new Satellite(); // Create a new Satellite object
+        Scanner scanner = new Scanner(System.in); // Scanner for user input
+        
+        while (true) { // Infinite loop for continuously accepting user commands
+            // Prompt the user for a command
+            try{
+            System.out.print("Enter the number: Rotate-1, Activate-2, Deactivate-3, CollectData-4, Status-5, Exit-0:\n");
+                int command = Integer.parseInt(scanner.nextLine());
+            // Switch statement to handle different commands
+            switch (command) {
+                case 0: // Exit the system
+                    System.out.println("Exiting the system.");
+                    scanner.close(); // Close the scanner
+                    return;
+                case 1: // Rotate the satellite
+                    System.out.print("Enter the direction (North, East, West, South): ");
+                    String direction = scanner.nextLine();
+                    satellite.rotate(direction);
+                    break;
+                case 2: // Activate the solar panels
+                    satellite.activatePanels();
+                    break;
+                case 3: // Deactivate the solar panels
+                    satellite.deactivatePanels();
+                    break;
+                case 4: // Collect data
+                    satellite.collectData();
+                    break;
+                case 5: // Print the current status of the satellite
+                    satellite.printStatus();
+                    break;
+                default: // Handle invalid commands
+                    System.out.println("Invalid command. Please try again.");
+            }
+        }
+        catch(NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+        }
+        }
+    }
+}
